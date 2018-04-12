@@ -187,11 +187,8 @@ namespace FileUi.UI
             }
             catch (Exception ex)
             {
-                ShowMessageError(ex);
-            }
-            finally
-            {
                 _fileTransfer_OnEdnProcess(sender, args);
+                ShowMessageError(ex);
             }
         }
 
@@ -199,17 +196,18 @@ namespace FileUi.UI
         {
             try
             {
+                progressBar.Value = args.Percent;
+                lbProgress.Text = $"{args.Percent}%";
+
+                ShowMessageSuccess();
+
+                progressBar.Visible = lbProgress.Visible = !args.ShowPressBar;
                 Text = args.Description;
                 Refresh();
-                ShowMessageSuccess();
             }
             catch (Exception ex)
             {
                 ShowMessageError(ex);
-            }
-            finally
-            {
-
             }
         }
 
@@ -217,15 +215,16 @@ namespace FileUi.UI
         {
             try
             {
+                if (!args.ShowPressBar) return;
 
+                progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
+                progressBar.Value = args.Percent;
+                lbProgress.Text = $"{args.Percent}%";
             }
             catch (Exception ex)
             {
+                _fileTransfer_OnEdnProcess(sender, args);
                 ShowMessageError(ex);
-            }
-            finally
-            {
-
             }
         }
 
