@@ -22,7 +22,7 @@ namespace FileUi.UI
         public FilesManipulationForm(IFileTransfer fileTransfer)
         {
             InitializeComponent();
-            FormatControls();
+            //FormatControls();
             _fileTransfer = fileTransfer;
             _settings = new Settings();
             FormatTransferType();
@@ -179,11 +179,11 @@ namespace FileUi.UI
             try
             {
                 Text = args.Description;
-                Refresh();
                 progressBar.Maximum = 100;
                 progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
                 progressBar.Value = args.Percent;
                 lbProgress.Text = $"{args.Percent}%";
+                Refresh();
             }
             catch (Exception ex)
             {
@@ -201,7 +201,7 @@ namespace FileUi.UI
 
                 ShowMessageSuccess();
 
-                progressBar.Visible = lbProgress.Visible = !args.ShowPressBar;
+                progressBar.Visible = lbProgress.Visible = false;
                 Text = args.Description;
                 Refresh();
             }
@@ -219,7 +219,8 @@ namespace FileUi.UI
 
                 progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
                 progressBar.Value = args.Percent;
-                lbProgress.Text = $"{args.Percent}%";
+                lbProgress.Text = $"{args.Percent}% - {args.ItemDescription}";
+                Refresh();
             }
             catch (Exception ex)
             {

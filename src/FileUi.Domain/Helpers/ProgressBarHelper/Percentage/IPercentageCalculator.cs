@@ -6,6 +6,6 @@ namespace FileUi.Domain.Helpers.ProgressBarHelper.Percentage
     {
         int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc);
 
-        int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc, int qtdDocs)
+        int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc, int qtdDocs);
     }
 }
