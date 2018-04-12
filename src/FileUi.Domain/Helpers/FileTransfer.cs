@@ -2,22 +2,26 @@
 using FileUi.Domain.Models;
 using System;
 using System.IO;
+using FileUi.Domain.Helpers.ProgressBarHelper;
 
 namespace FileUi.Domain.Helpers
 {
     public class FileTransfer : IFileTransfer
     {
+        public event OnProcessHandle OnProcess;
+        public event OnProcessHandle OnStartProcess;
+        public event OnProcessHandle OnEdnProcess;
+
         private string DestFile { get; set; }
+
+        #region Copy
 
         public void CopyFile(Settings settings)
         {
             if (settings.TranferType != TransferTypeEnum.Copy) return;
 
-            if (!File.Exists(settings.SourcePath))
-                throw new Exception("Arquivo não encontrado");
-
-            if (string.IsNullOrEmpty(settings.DestinationPath))
-                throw new Exception("Pasta de destino não informada");
+            SetOnStartProcess("Copiando arquivo", false);
+            ValidatePath(settings);
 
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
@@ -29,17 +33,15 @@ namespace FileUi.Domain.Helpers
             CreateSubdirectory(settings, fileName);
 
             File.Copy(settings.SourcePath, DestFile, settings.IgnoreDuplicates);
+            SetOnEndProcess("FileUI - Manipulação de Arquivos", false);
         }
 
         public void CopyAll(Settings settings)
         {
             if (settings.TranferType != TransferTypeEnum.CopyAll) return;
 
-            if (!Directory.Exists(settings.SourcePath))
-                throw new Exception("Diretório de origem não encontrado");
-
-            if (string.IsNullOrEmpty(settings.DestinationPath))
-                throw new Exception("Pasta de destino não informada");
+            SetOnStartProcess("Copiando arquivos");
+            ValidatePaths(settings);
 
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
@@ -50,6 +52,9 @@ namespace FileUi.Domain.Helpers
             foreach (var file in files)
             {
                 var fileName = Path.GetFileName(file);
+
+                SeOnProcess(0, fileName);
+
                 var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
                 DestFile = Path.Combine(settings.DestinationPath, newFileName);
                 var sourceFile = Path.Combine(settings.SourcePath, fileName);
@@ -57,19 +62,25 @@ namespace FileUi.Domain.Helpers
                 CreateSubdirectory(settings, newFileName);
 
                 File.Copy(sourceFile, DestFile, settings.IgnoreDuplicates);
+
+                var percent = PercentageCalculator.CalcPercentageProcess(files, file);
+                SeOnProcess(percent, fileName);
                 count++;
             }
+
+            SetOnEndProcess("FileUI - Manipulação de Arquivos");
         }
+
+        #endregion
+
+        #region Move
 
         public void MoveFile(Settings settings)
         {
             if (settings.TranferType != TransferTypeEnum.Move) return;
 
-            if (!File.Exists(settings.SourcePath))
-                throw new Exception("Arquivo não encontrado");
-
-            if (string.IsNullOrEmpty(settings.DestinationPath))
-                throw new Exception("Pasta de destino não informada");
+            SetOnStartProcess("Movendo arquivo", false);
+            ValidatePath(settings);
 
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
@@ -81,17 +92,15 @@ namespace FileUi.Domain.Helpers
             CreateSubdirectory(settings, fileName);
 
             File.Move(settings.SourcePath, DestFile);
+            SetOnEndProcess("FileUI - Manipulação de Arquivos", false);
         }
 
         public void MoveAll(Settings settings)
         {
             if (settings.TranferType != TransferTypeEnum.MoveAll) return;
 
-            if (!Directory.Exists(settings.SourcePath))
-                throw new Exception("Diretório de origem não encontrado");
-
-            if (string.IsNullOrEmpty(settings.DestinationPath))
-                throw new Exception("Pasta de destino não informada");
+            SetOnStartProcess("Movendo arquivos");
+            ValidatePaths(settings);
 
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
@@ -102,6 +111,8 @@ namespace FileUi.Domain.Helpers
             foreach (var file in files)
             {
                 var fileName = Path.GetFileName(file);
+                SeOnProcess(0, fileName);
+
                 var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
                 DestFile = Path.Combine(settings.DestinationPath, newFileName);
                 var sourceFile = Path.Combine(settings.SourcePath, fileName);
@@ -109,9 +120,16 @@ namespace FileUi.Domain.Helpers
                 CreateSubdirectory(settings, newFileName);
 
                 File.Move(sourceFile, DestFile);
+                
+                var percent = PercentageCalculator.CalcPercentageProcess(files, file);
+                SeOnProcess(percent, fileName);
                 count++;
             }
+
+            SetOnEndProcess("FileUI - Manipulação de Arquivos");
         }
+
+        #endregion
 
         private void CreateSubdirectory(Settings settings, string fileName)
         {
@@ -132,5 +150,46 @@ namespace FileUi.Domain.Helpers
 
             return fileName;
         }
+
+        #region Validates
+
+        private void ValidatePath(Settings settings)
+        {
+            if (!File.Exists(settings.SourcePath))
+                throw new Exception("Arquivo não encontrado");
+
+            if (string.IsNullOrEmpty(settings.DestinationPath))
+                throw new Exception("Pasta de destino não informada");
+        }
+
+        private void ValidatePaths(Settings settings)
+        {
+            if (!Directory.Exists(settings.SourcePath))
+                throw new Exception("Diretório de origem não encontrado");
+
+            if (string.IsNullOrEmpty(settings.DestinationPath))
+                throw new Exception("Pasta de destino não informada");
+        }
+
+        #endregion
+
+        #region ProgressEvents
+
+        public void SetOnStartProcess(string description, bool showProgressBar = true)
+        {
+            OnStartProcess?.Invoke(this, new ProcessArgs(0, description, "", showProgressBar));
+        }
+
+        public void SetOnEndProcess(string description, bool showProgress = true)
+        {
+            OnEdnProcess?.Invoke(this, new ProcessArgs(100, description, "", showProgress));
+        }
+
+        public void SeOnProcess(int percent, string itemDescription, bool showProgress = true)
+        {
+            OnProcess?.Invoke(this, new ProcessArgs(percent, "", itemDescription, showProgress));
+        }
+
+        #endregion
     }
 }

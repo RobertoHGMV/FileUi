@@ -21,9 +21,15 @@ namespace FileUi.UI
         public FilesManipulationForm(IFileTransfer fileTransfer)
         {
             InitializeComponent();
+            FormatControls();
             _fileTransfer = fileTransfer;
             _settings = new Settings();
             FormatTransferType();
+        }
+
+        private void FormatControls()
+        {
+            progressBar.Visible = lbProgress.Visible = false;
         }
 
         #region Messages
@@ -87,11 +93,6 @@ namespace FileUi.UI
             {
                 ShowMessageError(ex);
             }
-        }
-
-        private void FillControls(Settings settings)
-        {
-
         }
 
         private void FillClass(Settings settings)

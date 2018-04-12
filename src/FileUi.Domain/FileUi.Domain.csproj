@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\FileTransfer.cs" />
+    <Compile Include="Helpers\ProgressBarHelper\PercentageCalculator.cs" />
+    <Compile Include="Helpers\ProgressBarHelper\ProcessArgs.cs" />
     <Compile Include="Helpers\SoundHelper.cs" />
     <Compile Include="Interfaces\IFileTransfer.cs" />
     <Compile Include="Models\Settings.cs" />

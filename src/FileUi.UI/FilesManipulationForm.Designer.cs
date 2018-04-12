@@ -39,7 +39,7 @@
             this.btnTarget = new MetroFramework.Controls.MetroButton();
             this.cbProcessType = new MetroFramework.Controls.MetroComboBox();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.lbProgress = new MetroFramework.Controls.MetroLabel();
             this.btnClear = new MetroFramework.Controls.MetroButton();
             this.btnTransfer = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
@@ -98,10 +98,10 @@
             this.chkReproduceSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkReproduceSound.AutoSize = true;
             this.chkReproduceSound.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkReproduceSound.Location = new System.Drawing.Point(431, 402);
+            this.chkReproduceSound.Location = new System.Drawing.Point(430, 402);
             this.chkReproduceSound.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkReproduceSound.Name = "chkReproduceSound";
-            this.chkReproduceSound.Size = new System.Drawing.Size(355, 25);
+            this.chkReproduceSound.Size = new System.Drawing.Size(356, 25);
             this.chkReproduceSound.TabIndex = 4;
             this.chkReproduceSound.Text = "Reproduzir som ao terminar transferência";
             this.chkReproduceSound.UseSelectable = true;
@@ -230,17 +230,17 @@
             this.progressBar.Size = new System.Drawing.Size(629, 35);
             this.progressBar.TabIndex = 10;
             // 
-            // metroLabel1
+            // lbProgress
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(35, 349);
-            this.metroLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(50, 25);
-            this.metroLabel1.TabIndex = 12;
-            this.metroLabel1.Text = "100%";
-            this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbProgress.AutoSize = true;
+            this.lbProgress.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lbProgress.Location = new System.Drawing.Point(35, 349);
+            this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbProgress.Name = "lbProgress";
+            this.lbProgress.Size = new System.Drawing.Size(53, 25);
+            this.lbProgress.TabIndex = 12;
+            this.lbProgress.Text = "100%";
+            this.lbProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnClear
             // 
@@ -277,7 +277,7 @@
             this.ClientSize = new System.Drawing.Size(822, 471);
             this.Controls.Add(this.btnTransfer);
             this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.metroLabel1);
+            this.Controls.Add(this.lbProgress);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.cbProcessType);
             this.Controls.Add(this.btnTarget);
@@ -313,7 +313,7 @@
         private MetroFramework.Controls.MetroButton btnTarget;
         private MetroFramework.Controls.MetroComboBox cbProcessType;
         private MetroFramework.Controls.MetroProgressBar progressBar;
-        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroLabel lbProgress;
         private MetroFramework.Controls.MetroButton btnClear;
         private MetroFramework.Controls.MetroButton btnTransfer;
     }
