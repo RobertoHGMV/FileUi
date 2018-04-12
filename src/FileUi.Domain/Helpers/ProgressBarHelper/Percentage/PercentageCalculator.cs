@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FileUi.Domain.Helpers.ProgressBarHelper
+namespace FileUi.Domain.Helpers.ProgressBarHelper.Percentage
 {
-    public class PercentageCalculator
+    public class PercentageCalculator : IPercentageCalculator
     {
-        public static int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc)
+        public int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc)
         {
             var list = listDocs.ToList();
             var rowNumber = list.IndexOf(currentDoc) + 1;
@@ -13,7 +13,7 @@ namespace FileUi.Domain.Helpers.ProgressBarHelper
             return percent;
         }
 
-        public static int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc, int qtdDocs)
+        public int CalcPercentageProcess<TT>(IEnumerable<TT> listDocs, TT currentDoc, int qtdDocs)
         {
             var list = listDocs.ToList();
             var rowNumber = list.IndexOf(currentDoc) + 1;

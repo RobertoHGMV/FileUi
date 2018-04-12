@@ -10,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FileUi.Domain.Helpers.ProgressBarHelper;
 
 namespace FileUi.UI
 {
     public partial class FilesManipulationForm : MetroFramework.Forms.MetroForm
     {
-        private IFileTransfer _fileTransfer;
-        private Settings _settings;
+        private readonly IFileTransfer _fileTransfer;
+        private readonly Settings _settings;
 
         public FilesManipulationForm(IFileTransfer fileTransfer)
         {
@@ -25,6 +26,13 @@ namespace FileUi.UI
             _fileTransfer = fileTransfer;
             _settings = new Settings();
             FormatTransferType();
+        }
+
+        private void SignProgressEvents()
+        {
+            _fileTransfer.OnStartProcess += _fileTransfer_OnStartProcess;
+            _fileTransfer.OnEdnProcess += _fileTransfer_OnEdnProcess;
+            _fileTransfer.OnProcess += _fileTransfer_OnProcess;
         }
 
         private void FormatControls()
@@ -163,5 +171,64 @@ namespace FileUi.UI
 
             ShowMessageSuccess();
         }
+
+        #region ProgressEvents
+
+        private void _fileTransfer_OnStartProcess(object sender, ProcessArgs args)
+        {
+            try
+            {
+                Text = args.Description;
+                Refresh();
+                progressBar.Maximum = 100;
+                progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
+                progressBar.Value = args.Percent;
+                lbProgress.Text = $"{args.Percent}%";
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+            finally
+            {
+                _fileTransfer_OnEdnProcess(sender, args);
+            }
+        }
+
+        private void _fileTransfer_OnEdnProcess(object sender, ProcessArgs args)
+        {
+            try
+            {
+                Text = args.Description;
+                Refresh();
+                ShowMessageSuccess();
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void _fileTransfer_OnProcess(object sender, ProcessArgs args)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+            finally
+            {
+
+            }
+        }
+
+        #endregion
     }
 }

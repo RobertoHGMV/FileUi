@@ -3,6 +3,7 @@ using FileUi.Domain.Models;
 using System;
 using System.IO;
 using FileUi.Domain.Helpers.ProgressBarHelper;
+using FileUi.Domain.Helpers.ProgressBarHelper.Percentage;
 
 namespace FileUi.Domain.Helpers
 {
@@ -12,7 +13,14 @@ namespace FileUi.Domain.Helpers
         public event OnProcessHandle OnStartProcess;
         public event OnProcessHandle OnEdnProcess;
 
+        private readonly IPercentageCalculator _percentageCalculator;
+
         private string DestFile { get; set; }
+
+        public FileTransfer(IPercentageCalculator percentageCalculator)
+        {
+            _percentageCalculator = percentageCalculator;
+        }
 
         #region Copy
 
@@ -63,7 +71,7 @@ namespace FileUi.Domain.Helpers
 
                 File.Copy(sourceFile, DestFile, settings.IgnoreDuplicates);
 
-                var percent = PercentageCalculator.CalcPercentageProcess(files, file);
+                var percent = _percentageCalculator.CalcPercentageProcess(files, file);
                 SeOnProcess(percent, fileName);
                 count++;
             }
@@ -121,7 +129,7 @@ namespace FileUi.Domain.Helpers
 
                 File.Move(sourceFile, DestFile);
                 
-                var percent = PercentageCalculator.CalcPercentageProcess(files, file);
+                var percent = _percentageCalculator.CalcPercentageProcess(files, file);
                 SeOnProcess(percent, fileName);
                 count++;
             }

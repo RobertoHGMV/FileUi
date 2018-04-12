@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FileUi.Domain.Helpers.ProgressBarHelper.Percentage;
 
 namespace FileUi.UI
 {
@@ -17,7 +18,7 @@ namespace FileUi.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FilesManipulationForm(new FileTransfer()));
+            Application.Run(new FilesManipulationForm(new FileTransfer(new PercentageCalculator())));
         }
     }
 }
