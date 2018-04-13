@@ -1,7 +1,7 @@
 ﻿using FileUi.Domain.Helpers.ProgressBarHelper;
 using FileUi.Domain.Models;
 
-namespace FileUi.Domain.Interfaces
+namespace FileUi.Domain.Helpers
 {
     public interface IFileTransfer
     {

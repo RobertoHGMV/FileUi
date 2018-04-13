@@ -1,14 +1,6 @@
 ﻿using FileUi.Domain.Helpers;
-using FileUi.Domain.Interfaces;
 using FileUi.Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileUi.Domain.Helpers.ProgressBarHelper;
 
@@ -19,12 +11,17 @@ namespace FileUi.UI
         private readonly IFileTransfer _fileTransfer;
         private readonly Settings _settings;
 
+        private int CurrentPercent { get; set; }
+
         public FilesManipulationForm(IFileTransfer fileTransfer)
         {
             InitializeComponent();
-            //FormatControls();
+
             _fileTransfer = fileTransfer;
             _settings = new Settings();
+
+            SignProgressEvents();
+            FormatControls();
             FormatTransferType();
         }
 
@@ -165,11 +162,6 @@ namespace FileUi.UI
             _fileTransfer.MoveFile(_settings);
             _fileTransfer.CopyAll(_settings);
             _fileTransfer.MoveAll(_settings);
-
-            if (_settings.PlaySound)
-                SoundHelper.StartMusic();
-
-            ShowMessageSuccess();
         }
 
         #region ProgressEvents
@@ -200,9 +192,13 @@ namespace FileUi.UI
                 lbProgress.Text = $"{args.Percent}%";
 
                 ShowMessageSuccess();
-
-                progressBar.Visible = lbProgress.Visible = false;
                 Text = args.Description;
+
+                if (_settings.PlaySound)
+                    SoundHelper.StartMusic();
+
+                CurrentPercent = 0;
+                progressBar.Visible = lbProgress.Visible = false;
                 Refresh();
             }
             catch (Exception ex)
@@ -216,10 +212,12 @@ namespace FileUi.UI
             try
             {
                 if (!args.ShowPressBar) return;
+                
+                if (args.Percent > 0)
+                    CurrentPercent = args.Percent;
 
-                progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
-                progressBar.Value = args.Percent;
-                lbProgress.Text = $"{args.Percent}% - {args.ItemDescription}";
+                progressBar.Value = CurrentPercent;
+                lbProgress.Text = $"{CurrentPercent}% - {args.ItemDescription}";
                 Refresh();
             }
             catch (Exception ex)

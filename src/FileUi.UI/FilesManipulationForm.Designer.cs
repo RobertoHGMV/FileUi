@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FilesManipulationForm));
             this.cmdOk = new MetroFramework.Controls.MetroButton();
             this.chkCreateFolder = new MetroFramework.Controls.MetroCheckBox();
             this.chkEnumerateFiles = new MetroFramework.Controls.MetroCheckBox();
@@ -130,7 +131,6 @@
             this.txtSource.MaxLength = 32767;
             this.txtSource.Name = "txtSource";
             this.txtSource.PasswordChar = '\0';
-            this.txtSource.ReadOnly = true;
             this.txtSource.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtSource.SelectedText = "";
             this.txtSource.SelectionLength = 0;
@@ -166,7 +166,6 @@
             this.txtTarget.MaxLength = 32767;
             this.txtTarget.Name = "txtTarget";
             this.txtTarget.PasswordChar = '\0';
-            this.txtTarget.ReadOnly = true;
             this.txtTarget.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtTarget.SelectedText = "";
             this.txtTarget.SelectionLength = 0;
@@ -290,6 +289,7 @@
             this.Controls.Add(this.chkCreateFolder);
             this.Controls.Add(this.cmdOk);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(822, 471);
             this.Name = "FilesManipulationForm";

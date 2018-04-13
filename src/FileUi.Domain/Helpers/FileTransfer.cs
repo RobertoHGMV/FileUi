@@ -1,5 +1,4 @@
-﻿using FileUi.Domain.Interfaces;
-using FileUi.Domain.Models;
+﻿using FileUi.Domain.Models;
 using System;
 using System.IO;
 using FileUi.Domain.Helpers.ProgressBarHelper;
@@ -36,7 +35,7 @@ namespace FileUi.Domain.Helpers
 
             var fileName = Path.GetFileName(settings.SourcePath);
             fileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, 1);
-            DestFile = Path.Combine(settings.DestinationPath);
+            DestFile = Path.Combine(settings.DestinationPath, fileName);
 
             CreateSubdirectory(settings, fileName);
 
