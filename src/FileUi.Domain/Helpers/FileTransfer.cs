@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using FileUi.Domain.Helpers.ProgressBarHelper;
 using FileUi.Domain.Helpers.ProgressBarHelper.Percentage;
+using System.Collections.Generic;
 
 namespace FileUi.Domain.Helpers
 {
@@ -167,9 +168,14 @@ namespace FileUi.Domain.Helpers
         {
             var directories = Directory.GetDirectories(settings.SourcePath);
 
-            return !settings.CopyFilesInSubfolders && directories.Length > decimal.Zero 
-                ? directories 
-                : new[] { settings.SourcePath };
+            if (!settings.CopyFilesInSubfolders || directories.Length <= decimal.Zero)
+                return new[] { settings.SourcePath };
+
+            var directoryList = new List<string> { settings.SourcePath };
+            foreach (var directory in directories)
+                directoryList.Add(directory);
+
+            return directoryList.ToArray();
         }
 
         #region Validates

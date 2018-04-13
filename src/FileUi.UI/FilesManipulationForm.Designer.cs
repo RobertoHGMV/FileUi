@@ -58,6 +58,7 @@
             this.cmdOk.TabIndex = 0;
             this.cmdOk.Text = "OK";
             this.cmdOk.UseSelectable = true;
+            this.cmdOk.Click += new System.EventHandler(this.cmdOk_Click);
             // 
             // chkCreateFolder
             // 
@@ -100,10 +101,10 @@
             this.chkReproduceSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkReproduceSound.AutoSize = true;
             this.chkReproduceSound.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkReproduceSound.Location = new System.Drawing.Point(430, 402);
+            this.chkReproduceSound.Location = new System.Drawing.Point(431, 402);
             this.chkReproduceSound.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkReproduceSound.Name = "chkReproduceSound";
-            this.chkReproduceSound.Size = new System.Drawing.Size(356, 25);
+            this.chkReproduceSound.Size = new System.Drawing.Size(355, 25);
             this.chkReproduceSound.TabIndex = 4;
             this.chkReproduceSound.Text = "Reproduzir som ao terminar transferência";
             this.chkReproduceSound.UseSelectable = true;
@@ -237,7 +238,7 @@
             this.lbProgress.Location = new System.Drawing.Point(35, 349);
             this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbProgress.Name = "lbProgress";
-            this.lbProgress.Size = new System.Drawing.Size(53, 25);
+            this.lbProgress.Size = new System.Drawing.Size(50, 25);
             this.lbProgress.TabIndex = 12;
             this.lbProgress.Text = "100%";
             this.lbProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

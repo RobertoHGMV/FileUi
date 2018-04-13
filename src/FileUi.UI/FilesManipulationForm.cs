@@ -101,6 +101,18 @@ namespace FileUi.UI
             }
         }
 
+        private void cmdOk_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Close();
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+        }
+
         private void FillClass(Settings settings)
         {
             settings.CreateSubdirectory = chkCreateFolder.Checked;
@@ -197,14 +209,12 @@ namespace FileUi.UI
                 progressBar.Value = args.Percent;
                 lbProgress.Text = $"{args.Percent}%";
 
-                ShowMessageSuccess();
                 Text = args.Description;
 
                 if (_settings.PlaySound)
                     SoundHelper.StartMusic();
 
                 CurrentPercent = 0;
-                progressBar.Visible = lbProgress.Visible = false;
                 Refresh();
             }
             catch (Exception ex)
