@@ -96,6 +96,7 @@ namespace FileUi.UI
             }
             catch (Exception ex)
             {
+                EndProcessWithThrow();
                 ShowMessageError(ex);
             }
         }
@@ -158,6 +159,10 @@ namespace FileUi.UI
         private void Transfer()
         {
             FillClass(_settings);
+
+            if (TransferTypeEnum.None.Equals(_settings.TranferType))
+                throw new Exception("Selecione um tipo de transferência");
+
             _fileTransfer.CopyFile(_settings);
             _fileTransfer.MoveFile(_settings);
             _fileTransfer.CopyAll(_settings);
@@ -222,9 +227,19 @@ namespace FileUi.UI
             }
             catch (Exception ex)
             {
-                _fileTransfer_OnEdnProcess(sender, args);
                 ShowMessageError(ex);
             }
+        }
+
+        private void EndProcessWithThrow()
+        {
+            progressBar.Value = 0;
+            lbProgress.Text = "0%";
+            Text = "FileUI - Manipulação de Arquivos";
+
+            CurrentPercent = 0;
+            progressBar.Visible = lbProgress.Visible = false;
+            Refresh();
         }
 
         #endregion

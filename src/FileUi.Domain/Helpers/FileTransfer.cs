@@ -13,6 +13,7 @@ namespace FileUi.Domain.Helpers
         public event OnProcessHandle OnEdnProcess;
 
         private readonly IPercentageCalculator _percentageCalculator;
+        private const string Title = "FileUI - Manipulação de Arquivos";
 
         private string DestFile { get; set; }
 
@@ -40,7 +41,7 @@ namespace FileUi.Domain.Helpers
             CreateSubdirectory(settings, fileName);
 
             File.Copy(settings.SourcePath, DestFile, settings.IgnoreDuplicates);
-            SetOnEndProcess("FileUI - Manipulação de Arquivos", false);
+            SetOnEndProcess(Title, false);
         }
 
         public void CopyAll(Settings settings)
@@ -53,29 +54,31 @@ namespace FileUi.Domain.Helpers
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
 
-            var files = Directory.GetFiles(settings.SourcePath);
-
+            //var files = Directory.GetFiles(settings.SourcePath, "*.*", SearchOption.AllDirectories);
+            var directories = GetDirectories(settings);
             var count = 1;
-            foreach (var file in files)
+            foreach (var directory in directories)
             {
-                var fileName = Path.GetFileName(file);
+                var files = Directory.GetFiles(directory);
+                foreach (var file in files)
+                {
+                    var fileName = Path.GetFileName(file);
+                    SeOnProcess(0, fileName);
 
-                SeOnProcess(0, fileName);
+                    var sourceFile = Path.Combine(directory, fileName);
+                    var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
+                    DestFile = Path.Combine(settings.DestinationPath, newFileName);
 
-                var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
-                DestFile = Path.Combine(settings.DestinationPath, newFileName);
-                var sourceFile = Path.Combine(settings.SourcePath, fileName);
+                    CreateSubdirectory(settings, newFileName);
 
-                CreateSubdirectory(settings, newFileName);
-
-                File.Copy(sourceFile, DestFile, settings.IgnoreDuplicates);
-
-                var percent = _percentageCalculator.CalcPercentageProcess(files, file);
-                SeOnProcess(percent, fileName);
-                count++;
+                    File.Copy(sourceFile, DestFile, settings.IgnoreDuplicates);
+                    var percent = _percentageCalculator.CalcPercentageProcess(files, file);
+                    SeOnProcess(percent, fileName);
+                    count++;
+                }
             }
 
-            SetOnEndProcess("FileUI - Manipulação de Arquivos");
+            SetOnEndProcess(Title);
         }
 
         #endregion
@@ -99,7 +102,7 @@ namespace FileUi.Domain.Helpers
             CreateSubdirectory(settings, fileName);
 
             File.Move(settings.SourcePath, DestFile);
-            SetOnEndProcess("FileUI - Manipulação de Arquivos", false);
+            SetOnEndProcess(Title, false);
         }
 
         public void MoveAll(Settings settings)
@@ -112,28 +115,30 @@ namespace FileUi.Domain.Helpers
             if (!Directory.Exists(settings.DestinationPath))
                 Directory.CreateDirectory(settings.DestinationPath);
 
-            var files = Directory.GetFiles(settings.SourcePath);
-
+            var directories = GetDirectories(settings);
             var count = 1;
-            foreach (var file in files)
+            foreach (var directory in directories)
             {
-                var fileName = Path.GetFileName(file);
-                SeOnProcess(0, fileName);
+                var files = Directory.GetFiles(settings.SourcePath);
+                foreach (var file in files)
+                {
+                    var fileName = Path.GetFileName(file);
+                    SeOnProcess(0, fileName);
 
-                var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
-                DestFile = Path.Combine(settings.DestinationPath, newFileName);
-                var sourceFile = Path.Combine(settings.SourcePath, fileName);
+                    var sourceFile = Path.Combine(directory, fileName);
+                    var newFileName = SetEnumerateFileName(settings.EnumerateFiles, fileName, count);
+                    DestFile = Path.Combine(settings.DestinationPath, newFileName);
 
-                CreateSubdirectory(settings, newFileName);
+                    CreateSubdirectory(settings, newFileName);
 
-                File.Move(sourceFile, DestFile);
-                
-                var percent = _percentageCalculator.CalcPercentageProcess(files, file);
-                SeOnProcess(percent, fileName);
-                count++;
+                    File.Move(sourceFile, DestFile);
+                    var percent = _percentageCalculator.CalcPercentageProcess(files, file);
+                    SeOnProcess(percent, fileName);
+                    count++;
+                }
             }
 
-            SetOnEndProcess("FileUI - Manipulação de Arquivos");
+            SetOnEndProcess(Title);
         }
 
         #endregion
@@ -156,6 +161,15 @@ namespace FileUi.Domain.Helpers
                 return count < 10 ? $"0{count}.{fileName}" : $"{count.ToString()}.{fileName}";
 
             return fileName;
+        }
+
+        private string[] GetDirectories(Settings settings)
+        {
+            var directories = Directory.GetDirectories(settings.SourcePath);
+
+            return directories.Length > decimal.Zero 
+                ? directories 
+                : directories = new string[] { settings.SourcePath };
         }
 
         #region Validates
