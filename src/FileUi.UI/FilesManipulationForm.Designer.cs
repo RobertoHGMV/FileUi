@@ -43,6 +43,7 @@
             this.lbProgress = new MetroFramework.Controls.MetroLabel();
             this.btnClear = new MetroFramework.Controls.MetroButton();
             this.btnTransfer = new MetroFramework.Controls.MetroButton();
+            this.chkCopyFilesInSubfolders = new MetroFramework.Controls.MetroCheckBox();
             this.SuspendLayout();
             // 
             // cmdOk
@@ -74,19 +75,19 @@
             // 
             this.chkEnumerateFiles.AutoSize = true;
             this.chkEnumerateFiles.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkEnumerateFiles.Location = new System.Drawing.Point(215, 114);
+            this.chkEnumerateFiles.Location = new System.Drawing.Point(218, 114);
             this.chkEnumerateFiles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkEnumerateFiles.Name = "chkEnumerateFiles";
-            this.chkEnumerateFiles.Size = new System.Drawing.Size(254, 25);
+            this.chkEnumerateFiles.Size = new System.Drawing.Size(132, 25);
             this.chkEnumerateFiles.TabIndex = 2;
-            this.chkEnumerateFiles.Text = "Numerar nomes de arquivos";
+            this.chkEnumerateFiles.Text = "Numerar arq.";
             this.chkEnumerateFiles.UseSelectable = true;
             // 
             // chkIgnoreDuplicates
             // 
             this.chkIgnoreDuplicates.AutoSize = true;
             this.chkIgnoreDuplicates.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkIgnoreDuplicates.Location = new System.Drawing.Point(477, 114);
+            this.chkIgnoreDuplicates.Location = new System.Drawing.Point(609, 114);
             this.chkIgnoreDuplicates.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkIgnoreDuplicates.Name = "chkIgnoreDuplicates";
             this.chkIgnoreDuplicates.Size = new System.Drawing.Size(178, 25);
@@ -99,10 +100,10 @@
             this.chkReproduceSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkReproduceSound.AutoSize = true;
             this.chkReproduceSound.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkReproduceSound.Location = new System.Drawing.Point(431, 402);
+            this.chkReproduceSound.Location = new System.Drawing.Point(430, 402);
             this.chkReproduceSound.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkReproduceSound.Name = "chkReproduceSound";
-            this.chkReproduceSound.Size = new System.Drawing.Size(355, 25);
+            this.chkReproduceSound.Size = new System.Drawing.Size(356, 25);
             this.chkReproduceSound.TabIndex = 4;
             this.chkReproduceSound.Text = "Reproduzir som ao terminar transferência";
             this.chkReproduceSound.UseSelectable = true;
@@ -236,7 +237,7 @@
             this.lbProgress.Location = new System.Drawing.Point(35, 349);
             this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbProgress.Name = "lbProgress";
-            this.lbProgress.Size = new System.Drawing.Size(50, 25);
+            this.lbProgress.Size = new System.Drawing.Size(53, 25);
             this.lbProgress.TabIndex = 12;
             this.lbProgress.Text = "100%";
             this.lbProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -269,11 +270,24 @@
             this.btnTransfer.UseSelectable = true;
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
+            // chkCopyFilesInSubfolders
+            // 
+            this.chkCopyFilesInSubfolders.AutoSize = true;
+            this.chkCopyFilesInSubfolders.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
+            this.chkCopyFilesInSubfolders.Location = new System.Drawing.Point(362, 114);
+            this.chkCopyFilesInSubfolders.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkCopyFilesInSubfolders.Name = "chkCopyFilesInSubfolders";
+            this.chkCopyFilesInSubfolders.Size = new System.Drawing.Size(230, 25);
+            this.chkCopyFilesInSubfolders.TabIndex = 15;
+            this.chkCopyFilesInSubfolders.Text = "Copiar arq. em subpastas";
+            this.chkCopyFilesInSubfolders.UseSelectable = true;
+            // 
             // FilesManipulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(822, 471);
+            this.Controls.Add(this.chkCopyFilesInSubfolders);
             this.Controls.Add(this.btnTransfer);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.lbProgress);
@@ -316,6 +330,7 @@
         private MetroFramework.Controls.MetroLabel lbProgress;
         private MetroFramework.Controls.MetroButton btnClear;
         private MetroFramework.Controls.MetroButton btnTransfer;
+        private MetroFramework.Controls.MetroCheckBox chkCopyFilesInSubfolders;
     }
 }
 

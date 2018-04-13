@@ -4,6 +4,7 @@
     {
         public bool CreateSubdirectory { get; set; }
         public bool EnumerateFiles { get; set; }
+        public bool CopyFilesInSubfolders { get; set; }
         public bool IgnoreDuplicates { get; set; }
         public bool PlaySound { get; set; }
         public string SourcePath { get; set; }

@@ -167,9 +167,9 @@ namespace FileUi.Domain.Helpers
         {
             var directories = Directory.GetDirectories(settings.SourcePath);
 
-            return directories.Length > decimal.Zero 
+            return !settings.CopyFilesInSubfolders && directories.Length > decimal.Zero 
                 ? directories 
-                : directories = new string[] { settings.SourcePath };
+                : new[] { settings.SourcePath };
         }
 
         #region Validates

@@ -105,6 +105,7 @@ namespace FileUi.UI
         {
             settings.CreateSubdirectory = chkCreateFolder.Checked;
             settings.EnumerateFiles = chkEnumerateFiles.Checked;
+            settings.CopyFilesInSubfolders = chkCopyFilesInSubfolders.Checked;
             settings.IgnoreDuplicates = chkIgnoreDuplicates.Checked;
             settings.PlaySound = chkReproduceSound.Checked;
             settings.SourcePath = txtSource.Text;
