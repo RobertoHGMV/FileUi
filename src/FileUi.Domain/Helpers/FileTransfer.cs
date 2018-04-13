@@ -158,7 +158,7 @@ namespace FileUi.Domain.Helpers
         private string SetEnumerateFileName(bool enumerate, string fileName, int count)
         {
             if (enumerate)
-                return count < 10 ? $"0{count}.{fileName}" : $"{count.ToString()}.{fileName}";
+                return count < 10 ? $"0{count}.{fileName}" : $"{count}.{fileName}";
 
             return fileName;
         }
