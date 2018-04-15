@@ -44,6 +44,9 @@
             this.btnClear = new MetroFramework.Controls.MetroButton();
             this.btnTransfer = new MetroFramework.Controls.MetroButton();
             this.chkCopyFilesInSubfolders = new MetroFramework.Controls.MetroCheckBox();
+            this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
+            this.btnPause = new MetroFramework.Controls.MetroButton();
+            this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // cmdOk
@@ -51,7 +54,7 @@
             this.cmdOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdOk.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.cmdOk.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.cmdOk.Location = new System.Drawing.Point(33, 394);
+            this.cmdOk.Location = new System.Drawing.Point(33, 415);
             this.cmdOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmdOk.Name = "cmdOk";
             this.cmdOk.Size = new System.Drawing.Size(112, 41);
@@ -70,6 +73,7 @@
             this.chkCreateFolder.Size = new System.Drawing.Size(174, 25);
             this.chkCreateFolder.TabIndex = 1;
             this.chkCreateFolder.Text = "Criar subdiretórios";
+            this.metroToolTip1.SetToolTip(this.chkCreateFolder, "Cria uma pasta para cada arquivo transferido");
             this.chkCreateFolder.UseSelectable = true;
             // 
             // chkEnumerateFiles
@@ -82,6 +86,7 @@
             this.chkEnumerateFiles.Size = new System.Drawing.Size(132, 25);
             this.chkEnumerateFiles.TabIndex = 2;
             this.chkEnumerateFiles.Text = "Numerar arq.";
+            this.metroToolTip1.SetToolTip(this.chkEnumerateFiles, "Realiza a enumeração dos arquivos Ex: 01");
             this.chkEnumerateFiles.UseSelectable = true;
             // 
             // chkIgnoreDuplicates
@@ -94,6 +99,7 @@
             this.chkIgnoreDuplicates.Size = new System.Drawing.Size(178, 25);
             this.chkIgnoreDuplicates.TabIndex = 3;
             this.chkIgnoreDuplicates.Text = "Ignorar duplicados";
+            this.metroToolTip1.SetToolTip(this.chkIgnoreDuplicates, "Substitui arquivo caso já exista na pasta de destino");
             this.chkIgnoreDuplicates.UseSelectable = true;
             // 
             // chkReproduceSound
@@ -101,12 +107,13 @@
             this.chkReproduceSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkReproduceSound.AutoSize = true;
             this.chkReproduceSound.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.chkReproduceSound.Location = new System.Drawing.Point(431, 402);
+            this.chkReproduceSound.Location = new System.Drawing.Point(423, 423);
             this.chkReproduceSound.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkReproduceSound.Name = "chkReproduceSound";
-            this.chkReproduceSound.Size = new System.Drawing.Size(355, 25);
+            this.chkReproduceSound.Size = new System.Drawing.Size(363, 25);
             this.chkReproduceSound.TabIndex = 4;
-            this.chkReproduceSound.Text = "Reproduzir som ao terminar transferência";
+            this.chkReproduceSound.Text = "Reproduzir alerta ao terminar transferência";
+            this.metroToolTip1.SetToolTip(this.chkReproduceSound, "Reproduz alerta ao final da transferência");
             this.chkReproduceSound.UseSelectable = true;
             // 
             // txtSource
@@ -128,7 +135,7 @@
             this.txtSource.CustomButton.Visible = false;
             this.txtSource.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.txtSource.Lines = new string[0];
-            this.txtSource.Location = new System.Drawing.Point(33, 208);
+            this.txtSource.Location = new System.Drawing.Point(33, 205);
             this.txtSource.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtSource.MaxLength = 32767;
             this.txtSource.Name = "txtSource";
@@ -163,7 +170,7 @@
             this.txtTarget.CustomButton.Visible = false;
             this.txtTarget.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.txtTarget.Lines = new string[0];
-            this.txtTarget.Location = new System.Drawing.Point(33, 259);
+            this.txtTarget.Location = new System.Drawing.Point(33, 252);
             this.txtTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTarget.MaxLength = 32767;
             this.txtTarget.Name = "txtTarget";
@@ -184,12 +191,13 @@
             this.btnSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSource.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnSource.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.btnSource.Location = new System.Drawing.Point(675, 205);
+            this.btnSource.Location = new System.Drawing.Point(675, 203);
             this.btnSource.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSource.Name = "btnSource";
             this.btnSource.Size = new System.Drawing.Size(112, 41);
             this.btnSource.TabIndex = 7;
             this.btnSource.Text = "Origem";
+            this.metroToolTip1.SetToolTip(this.btnSource, "Definir pasta/arquivo de origem");
             this.btnSource.UseSelectable = true;
             this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
             // 
@@ -198,12 +206,13 @@
             this.btnTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTarget.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnTarget.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.btnTarget.Location = new System.Drawing.Point(674, 254);
+            this.btnTarget.Location = new System.Drawing.Point(674, 251);
             this.btnTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnTarget.Name = "btnTarget";
             this.btnTarget.Size = new System.Drawing.Size(112, 41);
             this.btnTarget.TabIndex = 8;
             this.btnTarget.Text = "Destino";
+            this.metroToolTip1.SetToolTip(this.btnTarget, "Definir pasta de destino");
             this.btnTarget.UseSelectable = true;
             this.btnTarget.Click += new System.EventHandler(this.btnTarget_Click);
             // 
@@ -219,13 +228,14 @@
             this.cbProcessType.Name = "cbProcessType";
             this.cbProcessType.Size = new System.Drawing.Size(626, 35);
             this.cbProcessType.TabIndex = 9;
+            this.metroToolTip1.SetToolTip(this.cbProcessType, "Tipo de transferência");
             this.cbProcessType.UseSelectable = true;
             // 
             // progressBar
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(33, 309);
+            this.progressBar.Location = new System.Drawing.Point(33, 299);
             this.progressBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(629, 35);
@@ -235,7 +245,7 @@
             // 
             this.lbProgress.AutoSize = true;
             this.lbProgress.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lbProgress.Location = new System.Drawing.Point(35, 349);
+            this.lbProgress.Location = new System.Drawing.Point(34, 339);
             this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbProgress.Name = "lbProgress";
             this.lbProgress.Size = new System.Drawing.Size(50, 25);
@@ -254,6 +264,7 @@
             this.btnClear.Size = new System.Drawing.Size(112, 41);
             this.btnClear.TabIndex = 13;
             this.btnClear.Text = "Limpar";
+            this.metroToolTip1.SetToolTip(this.btnClear, "Limpar campos");
             this.btnClear.UseSelectable = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
@@ -262,12 +273,13 @@
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTransfer.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnTransfer.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.btnTransfer.Location = new System.Drawing.Point(675, 302);
+            this.btnTransfer.Location = new System.Drawing.Point(675, 299);
             this.btnTransfer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(112, 41);
             this.btnTransfer.TabIndex = 14;
             this.btnTransfer.Text = "Transferir";
+            this.metroToolTip1.SetToolTip(this.btnTransfer, "Transferir arquivos");
             this.btnTransfer.UseSelectable = true;
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
@@ -281,13 +293,52 @@
             this.chkCopyFilesInSubfolders.Size = new System.Drawing.Size(230, 25);
             this.chkCopyFilesInSubfolders.TabIndex = 15;
             this.chkCopyFilesInSubfolders.Text = "Copiar arq. em subpastas";
+            this.metroToolTip1.SetToolTip(this.chkCopyFilesInSubfolders, "Copia arquivos que se encontram em subpastas");
             this.chkCopyFilesInSubfolders.UseSelectable = true;
+            // 
+            // metroToolTip1
+            // 
+            this.metroToolTip1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroToolTip1.StyleManager = null;
+            this.metroToolTip1.Theme = MetroFramework.MetroThemeStyle.Light;
+            // 
+            // btnPause
+            // 
+            this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPause.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnPause.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.btnPause.Location = new System.Drawing.Point(153, 415);
+            this.btnPause.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(112, 41);
+            this.btnPause.TabIndex = 16;
+            this.btnPause.Text = "Pausar";
+            this.metroToolTip1.SetToolTip(this.btnPause, "Transferir arquivos");
+            this.btnPause.UseSelectable = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCancel.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnCancel.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.btnCancel.Location = new System.Drawing.Point(273, 415);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(112, 41);
+            this.btnCancel.TabIndex = 17;
+            this.btnCancel.Text = "Cancelar";
+            this.metroToolTip1.SetToolTip(this.btnCancel, "Transferir arquivos");
+            this.btnCancel.UseSelectable = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // FilesManipulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(822, 471);
+            this.ClientSize = new System.Drawing.Size(822, 492);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.chkCopyFilesInSubfolders);
             this.Controls.Add(this.btnTransfer);
             this.Controls.Add(this.btnClear);
@@ -306,7 +357,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(822, 471);
+            this.MinimumSize = new System.Drawing.Size(822, 492);
             this.Name = "FilesManipulationForm";
             this.Padding = new System.Windows.Forms.Padding(30, 92, 30, 31);
             this.Text = "FileUI - Manipulação de Arquivos";
@@ -332,6 +383,9 @@
         private MetroFramework.Controls.MetroButton btnClear;
         private MetroFramework.Controls.MetroButton btnTransfer;
         private MetroFramework.Controls.MetroCheckBox chkCopyFilesInSubfolders;
+        private MetroFramework.Components.MetroToolTip metroToolTip1;
+        private MetroFramework.Controls.MetroButton btnPause;
+        private MetroFramework.Controls.MetroButton btnCancel;
     }
 }
 

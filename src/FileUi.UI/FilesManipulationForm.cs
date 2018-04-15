@@ -21,20 +21,8 @@ namespace FileUi.UI
             _settings = new Settings();
 
             SignProgressEvents();
-            FormatControls();
+            SetVisibleControls(false);
             FormatTransferType();
-        }
-
-        private void SignProgressEvents()
-        {
-            _fileTransfer.OnStartProcess += _fileTransfer_OnStartProcess;
-            _fileTransfer.OnEdnProcess += _fileTransfer_OnEdnProcess;
-            _fileTransfer.OnProcess += _fileTransfer_OnProcess;
-        }
-
-        private void FormatControls()
-        {
-            progressBar.Visible = lbProgress.Visible = false;
         }
 
         #region Messages
@@ -50,6 +38,8 @@ namespace FileUi.UI
         }
 
         #endregion
+
+        #region Events
 
         private void btnClear_Click(object sender, EventArgs e)
         {
@@ -96,7 +86,7 @@ namespace FileUi.UI
             }
             catch (Exception ex)
             {
-                EndProcessWithThrow();
+                EndProcess();
                 ShowMessageError(ex);
             }
         }
@@ -111,6 +101,43 @@ namespace FileUi.UI
             {
                 ShowMessageError(ex);
             }
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _fileTransfer.Pause = !_fileTransfer.Pause;
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _fileTransfer.Stop = true;
+                EndProcess();
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+        }
+
+        #endregion
+
+        #region Controls Manipulation
+
+        private void SetVisibleControls(bool visible)
+        {
+            progressBar.Visible =
+                lbProgress.Visible = false;
+                //btnPause.Visible =
+                //btnCancel.Visible = visible;
         }
 
         private void FillClass(Settings settings)
@@ -138,6 +165,10 @@ namespace FileUi.UI
             txtSource.Text = txtTarget.Text = string.Empty;
             cbProcessType.SelectedValue = (int)TransferTypeEnum.None;
         }
+
+        #endregion
+
+        #region GetPaths
 
         private void GetSource()
         {
@@ -169,6 +200,8 @@ namespace FileUi.UI
             txtTarget.Text = folderDialog.SelectedPath;
         }
 
+        #endregion
+
         private void Transfer()
         {
             FillClass(_settings);
@@ -184,13 +217,20 @@ namespace FileUi.UI
 
         #region ProgressEvents
 
+        private void SignProgressEvents()
+        {
+            _fileTransfer.OnStartProcess += _fileTransfer_OnStartProcess;
+            _fileTransfer.OnEdnProcess += _fileTransfer_OnEdnProcess;
+            _fileTransfer.OnProcess += _fileTransfer_OnProcess;
+        }
+
         private void _fileTransfer_OnStartProcess(object sender, ProcessArgs args)
         {
             try
             {
                 Text = args.Description;
                 progressBar.Maximum = 100;
-                progressBar.Visible = lbProgress.Visible = args.ShowPressBar;
+                SetVisibleControls(true);
                 progressBar.Value = args.Percent;
                 lbProgress.Text = $"{args.Percent}%";
                 Refresh();
@@ -214,6 +254,8 @@ namespace FileUi.UI
                 if (_settings.PlaySound)
                     SoundHelper.StartMusic();
 
+                ShowMessageSuccess();
+                SetVisibleControls(false);
                 CurrentPercent = 0;
                 Refresh();
             }
@@ -242,14 +284,13 @@ namespace FileUi.UI
             }
         }
 
-        private void EndProcessWithThrow()
+        private void EndProcess()
         {
-            progressBar.Value = 0;
+            progressBar.Value = CurrentPercent = 0;
             lbProgress.Text = "0%";
             Text = "FileUI - Manipulação de Arquivos";
 
-            CurrentPercent = 0;
-            progressBar.Visible = lbProgress.Visible = false;
+            SetVisibleControls(false);
             Refresh();
         }
 

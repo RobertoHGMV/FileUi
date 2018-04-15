@@ -9,6 +9,9 @@ namespace FileUi.Domain.Helpers
         event OnProcessHandle OnStartProcess;
         event OnProcessHandle OnEdnProcess;
 
+        bool Pause { get; set; }
+        bool Stop { get; set; }
+
         void CopyFile(Settings settings);
 
         void CopyAll(Settings settings);

@@ -16,6 +16,8 @@ namespace FileUi.Domain.Helpers
         private readonly IPercentageCalculator _percentageCalculator;
         private const string Title = "FileUI - Manipulação de Arquivos";
 
+        public bool Pause { get; set; }
+        public bool Stop { get; set; }
         private string DestFile { get; set; }
 
         public FileTransfer(IPercentageCalculator percentageCalculator)
@@ -61,8 +63,16 @@ namespace FileUi.Domain.Helpers
             foreach (var directory in directories)
             {
                 var files = Directory.GetFiles(directory);
-                foreach (var file in files)
+                for (var i = 0; i < files.Length;)
                 {
+                    if (Stop)
+                    {
+                        Stop = !Stop;
+                        break;
+                    }
+                    if (Pause) continue;
+
+                    var file = files[i];
                     var fileName = Path.GetFileName(file);
                     SeOnProcess(0, fileName);
 
@@ -75,6 +85,8 @@ namespace FileUi.Domain.Helpers
                     File.Copy(sourceFile, DestFile, settings.IgnoreDuplicates);
                     var percent = _percentageCalculator.CalcPercentageProcess(files, file);
                     SeOnProcess(percent, fileName);
+
+                    i++;
                     count++;
                 }
             }
