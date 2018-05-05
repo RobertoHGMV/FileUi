@@ -8,6 +8,7 @@ namespace FileUi.UI
 {
     public partial class FilesManipulationForm : MetroFramework.Forms.MetroForm
     {
+        private ProgressBarForm _progressForm;
         private readonly IFileTransfer _fileTransfer;
         private readonly Settings _settings;
 
@@ -21,7 +22,6 @@ namespace FileUi.UI
             _settings = new Settings();
 
             SignProgressEvents();
-            SetVisibleControls(false);
             FormatTransferType();
         }
 
@@ -132,14 +132,6 @@ namespace FileUi.UI
 
         #region Controls Manipulation
 
-        private void SetVisibleControls(bool visible)
-        {
-            progressBar.Visible =
-                lbProgress.Visible = false;
-                //btnPause.Visible =
-                //btnCancel.Visible = visible;
-        }
-
         private void FillClass(Settings settings)
         {
             settings.CreateSubdirectory = chkCreateFolder.Checked;
@@ -224,15 +216,36 @@ namespace FileUi.UI
             _fileTransfer.OnProcess += _fileTransfer_OnProcess;
         }
 
+        private void _progressForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (CurrentPercent == decimal.Zero) return;
+
+                _fileTransfer.Stop = true;
+                EndProcess();
+            }
+            catch (Exception ex)
+            {
+                ShowMessageError(ex);
+            }
+        }
+
         private void _fileTransfer_OnStartProcess(object sender, ProcessArgs args)
         {
             try
             {
+                _progressForm = new ProgressBarForm();
+                _progressForm.FormClosing += _progressForm_FormClosing;
+                _progressForm.Show(this);
+
                 Text = args.Description;
-                progressBar.Maximum = 100;
-                SetVisibleControls(true);
-                progressBar.Value = args.Percent;
-                lbProgress.Text = $"{args.Percent}%";
+
+                _progressForm.progressBar.Maximum = 100;
+                _progressForm.progressBar.Value = args.Percent;
+                _progressForm.lbProgress.Text = $"{args.Percent}%";
+                _progressForm.PositionChanged();
+
                 Refresh();
             }
             catch (Exception ex)
@@ -246,8 +259,9 @@ namespace FileUi.UI
         {
             try
             {
-                progressBar.Value = args.Percent;
-                lbProgress.Text = $"{args.Percent}%";
+                _progressForm.progressBar.Value = args.Percent;
+                _progressForm.lbProgress.Text = $"{args.Percent}%";
+                _progressForm.PositionChanged();
 
                 Text = args.Description;
 
@@ -255,7 +269,7 @@ namespace FileUi.UI
                     SoundHelper.StartMusic();
 
                 ShowMessageSuccess();
-                SetVisibleControls(false);
+
                 CurrentPercent = 0;
                 Refresh();
             }
@@ -274,8 +288,10 @@ namespace FileUi.UI
                 if (args.Percent > 0)
                     CurrentPercent = args.Percent;
 
-                progressBar.Value = CurrentPercent;
-                lbProgress.Text = $"{CurrentPercent}% - {args.ItemDescription}";
+                _progressForm.progressBar.Value = CurrentPercent;
+                _progressForm.lbProgress.Text = $"{CurrentPercent}% - {args.ItemDescription}";
+                _progressForm.PositionChanged();
+
                 Refresh();
             }
             catch (Exception ex)
@@ -286,11 +302,13 @@ namespace FileUi.UI
 
         private void EndProcess()
         {
-            progressBar.Value = CurrentPercent = 0;
-            lbProgress.Text = "0%";
-            Text = "FileUI - Manipulação de Arquivos";
+            _progressForm.progressBar.Value = CurrentPercent = 0;
+            _progressForm.lbProgress.Text = "0%";
+            _progressForm.PositionChanged();
+            _progressForm.Close();
 
-            SetVisibleControls(false);
+            Text = "FileUI - Manipulação de Arquivos";
+            
             Refresh();
         }
 
