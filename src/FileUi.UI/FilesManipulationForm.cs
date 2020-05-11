@@ -86,8 +86,11 @@ namespace FileUi.UI
             }
             catch (Exception ex)
             {
-                EndProcess();
                 ShowMessageError(ex);
+            }
+            finally 
+            {
+                EndProcess();
             }
         }
 
@@ -268,7 +271,7 @@ namespace FileUi.UI
                 if (_settings.PlaySound)
                     SoundHelper.StartMusic();
 
-                ShowMessageSuccess();
+                //ShowMessageSuccess();
 
                 CurrentPercent = 0;
                 Refresh();
